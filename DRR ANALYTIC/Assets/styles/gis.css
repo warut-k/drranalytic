@@ -1,0 +1,46 @@
+body{
+    margin: 0px;
+    overflow:hidden;
+    font-size: 12px;
+    font-family:"Times New Roman",Georgia,Serif,Sans-serif;
+}
+
+#header_logo {
+    height:40px;
+    background-image:url('/../assets/image/gisimg/header-bg.jpg');
+    background-repeat:repeat-x;
+}
+
+#main_left_window {
+    padding:0px;
+}
+
+#main_right_window {
+    padding:0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.imgIcon16 {margin-top:5px;}
+
+                #left-pane, #center-pane, #right-pane  { background-color: rgba(60, 70, 80, 0.05); }
+
+                .pane-content {
+                    padding: 0 10px;
+                }

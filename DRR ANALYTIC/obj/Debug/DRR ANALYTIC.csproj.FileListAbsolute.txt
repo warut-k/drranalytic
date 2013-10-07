@@ -1,0 +1,24 @@
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DRR ANALYTIC.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DRR ANALYTIC.pdb
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\AspNet.ScriptManager.jQuery.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\AspNet.ScriptManager.jQuery.UI.Combined.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.AspNet.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.Core.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OAuth.Consumer.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OAuth.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OpenId.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\EntityFramework.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\Microsoft.AspNet.Membership.OpenAuth.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\Microsoft.Web.Infrastructure.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\System.Web.Providers.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\EntityFramework.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.Core.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OAuth.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OAuth.Consumer.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OpenId.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\bin\DotNetOpenAuth.AspNet.xml
+D:\DRR ANALYTIC\DRR ANALYTIC\obj\Debug\DRR ANALYTIC.csprojResolveAssemblyReference.cache
+D:\DRR ANALYTIC\DRR ANALYTIC\obj\Debug\DRR ANALYTIC.dll
+D:\DRR ANALYTIC\DRR ANALYTIC\obj\Debug\DRR ANALYTIC.pdb
