@@ -13,7 +13,7 @@ function queryLayer() {
             alert("กรุณาเลือกชั้นข้อมูล");
         } else {
             
-
+            showModalLoading();
             layerId = $("#subTargetQueryLayer").val();
             layerPrefix = layerId.substr(0, 2);
 
@@ -66,7 +66,9 @@ function queryLayer() {
 
 
 function queryTheResultFromServices(url, whereCondition, outFields) {
-    
+    //esriConfig.defaults.io.proxyUrl = "/proxy";
+    esriConfig.defaults.io.alwaysUseProxy = true;
+
     var query = new esri.tasks.Query();
     query.returnGeometry = true;
     query.where = whereCondition;
@@ -93,6 +95,7 @@ function drawResultOnMap(featureSet) {
     });
 
 
+
     //Display the result tools
     showTheResultTool();
 }
@@ -102,25 +105,27 @@ function drawResultOnMap(featureSet) {
 
 
 function viewResuslAsTable() {
-    console.log(currentResultFeature);
+
     if (currentTableHTML == "") {
         generateHTMLTable();
     }
    
     var htmls_component = "";
-    htmls_component += "<div>";
-    htmls_component += "    <div style='float:left;margin-bottom:7px;font-size:22px;font:weight:bolder;'>";
-    htmls_component += "        ผลการค้นหา <a href='" + currentServiceURL + "' target='_blank' style='text-decoration:none'>(Ref. Serivce)</a>"; target = "_self"
-    htmls_component += "    </div>";
-    htmls_component += "    <div style='float:right;margin-bottom:7px;'>";
-    htmls_component += "        <button class='k-button' onclick='tableToExcel()' title='Export as Excel file'><img class='imgIcon16' src='../../Assets/image/gisimg/excel-icon.png'/></button>";
-    htmls_component += "        <button class='k-button' title='จัดเก็บผลการค้นหาชั่วคราว' ><img class='imgIcon16' src='../../Assets/image/gisimg/save-query-icon.png'/></button>";
-    htmls_component += "    </div>";
-    htmls_component += "    <div style='clear:both'></div>";
-    htmls_component += "</div>";
+    //htmls_component += "<div>";
+    //htmls_component += "    <div style='float:left;margin-bottom:7px;font-size:22px;font:weight:bolder;'>";
+    //htmls_component += "        ผลการค้นหา <a href='" + currentServiceURL + "' target='_blank' style='text-decoration:none'>(Ref. Serivce)</a>"; target = "_self"
+    //htmls_component += "    </div>";
+    //htmls_component += "    <div style='float:right;margin-bottom:7px;'>";
+    //htmls_component += "        <button class='k-button' onclick='tableToExcel()' title='Export as Excel file'><img class='imgIcon16' src='../../Assets/image/gisimg/excel-icon.png'/></button>";
+    //htmls_component += "        <button class='k-button' title='จัดเก็บผลการค้นหาชั่วคราว' ><img class='imgIcon16' src='../../Assets/image/gisimg/save-query-icon.png'/></button>";
+    //htmls_component += "    </div>";
+    //htmls_component += "    <div style='clear:both'></div>";
+    //htmls_component += "</div>";
 
-    $("#common_window").html(htmls_component + currentTableHTML);
-    
+    common_window.html(htmls_component + currentTableHTML);
+
+    common_window.data("kendoWindow").open();
+
     $("#resutlAsTableGrid").kendoGrid({
        sortable: true,
        dataSource: {
@@ -199,7 +204,53 @@ function resetNewQuery() {
 
 function showTheResultTool() {
     $("#result_tool_box").css("display", "inline");
+    hideModalLoading();
 }
 function hideTheResultTool() {
     $("#result_tool_box").css("display", "none");
 }
+
+function bufferCurrentGraphic() {
+
+    if (currentQueryGeometry == null) {
+        alert("กรุณาวาด Graphic ที่ต้องการ Buffer ลงบนแผนที่ฐานก่อน")
+    } else {
+        var gsvc = new esri.tasks.GeometryService(geometerService[0].url);
+
+        var params = new esri.tasks.BufferParameters();
+        params.distances = [$("#bufferDistanceTxt").val()];
+        params.bufferSpatialReference = new esri.SpatialReference({ wkid: "102100" });
+        params.outSpatialReference = map.spatialReference;
+        params.unit = esri.tasks.GeometryService[$("#bufferUnitOpt").val()];
+
+        if (currentQueryGeometry.type === "polygon") {
+
+            //if geometry is a polygon then simplify polygon.  This will make the user drawn polygon topologically correct.
+            gsvc.simplify([currentQueryGeometry], function (geometries) {
+                params.geometries = geometries;
+                gsvc.buffer(params, showBuffer);
+            });
+        } else {
+
+            params.geometries = [currentQueryGeometry];
+            gsvc.buffer(params, showBuffer);
+        }
+    }
+    
+}
+
+function showBuffer(bufferedGeometries) {
+    var symbol = new esri.symbol.SimpleFillSymbol(
+      esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+      new esri.symbol.SimpleLineSymbol(
+        esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+        new dojo.Color([255, 0, 0, 0.95]), 2
+      ),
+      new dojo.Color([255, 0, 0, 0.30])
+    );
+
+    currentQueryGeometry = bufferedGeometries[0];
+
+    var graphic = new esri.Graphic(bufferedGeometries[0], symbol);
+    map.graphics.add(graphic);
+}

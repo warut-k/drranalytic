@@ -737,6 +737,7 @@
     <Content Include="index.aspx" />
     <Content Include="packages.config" />
     <Content Include="Page\data\defualservice.js" />
+    <Content Include="Page\layer\add_kml_layer.html" />
     <Content Include="WebForm1.aspx" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Page\layer\added_layer.aspx" />
@@ -758,6 +759,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
+    <Content Include="Wyoming.kml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />

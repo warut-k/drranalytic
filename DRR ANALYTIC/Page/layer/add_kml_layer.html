@@ -1,0 +1,22 @@
+﻿<script>
+    function test() {
+        alert($("#targetFile").val());
+    }
+</script>
+<h3>ชั้นข้อมูล</h3>
+<div>
+    <input type="text" id="kmlUrlTxt" class="k-textbox" placeholder="URL KML File" style="width:80%"/>
+    <button class="k-button" onclick="addKMLLayerByURL()">เพิ่ม</button>    
+</div>
+<div id="kmlLayerItemBox" style="margin:10px 0px 10px 0px">
+   <div id="kmlLayerNoBox">KML layer not available</div>
+</div>
+
+
+<!--
+    เลือก KML ไฟล์<br>
+    <form action='#' method='POST' enctype='multipart/form-data'>
+        <input type='file' name='userFile' id="targetFile" class="k-button" style="width:100%"><br><br>
+        <input type='button' name='upload_btn' value='เพิ่ม' class="k-button" onclick="test()">
+    </form>
+    -->

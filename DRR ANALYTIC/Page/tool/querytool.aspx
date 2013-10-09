@@ -8,6 +8,13 @@
 
     $(document).ready(function () {
         initialDefaulLayer();
+
+        $("#bufferDistanceTxt").kendoNumericTextBox({
+            min: 0,
+            placeholder: "Select A Value"
+        });
+        $("#bufferUnitOpt").kendoDropDownList();
+        
     });
 
     $("#layerType").kendoDropDownList({
@@ -99,6 +106,19 @@
     <button class="k-button btn_style" onclick="tb.activate(esri.toolbars.Draw.POINT);" title="POINT"><img class="imgIcon16" src="../../Assets/image/gisimg/point-icon.png"   /></button>
     <button class="k-button btn_style" onclick="tb.deactivate()" title="Defaul Cursor"><img class="imgIcon16" src="../../Assets/image/gisimg/pointer-icon.png"   /></button>
     <button class="k-button btn_style" onclick="resetNewQuery()" title="Reset"><img class="imgIcon16" src="../../Assets/image/gisimg/clear-icon.png"   /></button>
+</div>
+<div style="margin-top:7px;padding:4px;background-color:#f6f6f6">
+    <input type="text" id="bufferDistanceTxt" value="0" style="width:48%"/>
+    <select id="bufferUnitOpt" style="width:49%;">
+        <option value="UNIT_STATUTE_MILE">Miles</option>
+        <option value="UNIT_FOOT">Feet</option>
+        <option value="UNIT_KILOMETER">Kilometers</option>
+        <option value="UNIT_METER">Meters</option>
+        <option value="UNIT_NAUTICAL_MILE">Nautical Miles</option>
+        <option value="UNIT_US_NAUTICAL_MILE">US Nautical Miles</option>
+        <option value="UNIT_DEGREE">Degrees</option>
+    </select>
+    <button class="k-button" onclick="bufferCurrentGraphic()" style="margin-top:5px">Draw Buffer</button>
 </div>
 
 <div style="margin-top:7px;">

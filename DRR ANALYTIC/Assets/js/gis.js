@@ -1,12 +1,14 @@
 var map;
 var right_window;
 var window_right_object;
-var currentQueryGeometry = null;
-
+var currentQueryGeometry = null; 
+var madalLoading;
+var common_window;
 $(document).ready(function () {
 
     
-   
+    
+
     listerWindowResize();
 
     //Control Map Layout
@@ -15,20 +17,44 @@ $(document).ready(function () {
     //Load Defaul map
     loadDefaulMap();
 
-    //Load left window
-    //loadLeftWindow();
+    iniModalLoading();
 
-    //Load  right window
-    //loadRightWindow();
-    
 
-    //Load Panel Tools
-    loadPanelTools();
-
-    //Load Panel Layer
-    loadPanelLayer();
-       
 });
+
+
+function iniModalLoading() {
+    madalLoading = $('#modalLoading').kendoWindow({
+        modal: true,
+        actions: {},
+    }).data("kendoWindow").close();
+}
+
+function showModalLoading() {
+    madalLoading.center();
+    madalLoading.open();
+}
+
+function hideModalLoading() {
+    madalLoading.close();
+}
+
+
+function showModalInfo() {
+    $('#modalInfo').kendoWindow({
+        modal: true
+    });
+
+    var win = $("#modalInfo").data("kendoWindow");
+    win.center();
+    win.open();
+}
+
+function hideModalInfo() {
+
+    var win = $("#modalInfo").data("kendoWindow");
+    win.close();
+}
 
 
 
@@ -49,17 +75,33 @@ function iniMapLayout() {
 
 
 function loadDefaulMap() {
-    require(["esri/map", "esri/layers/FeatureLayer", "esri/layers/wms", "esri/toolbars/draw", "esri/tasks/FeatureSet", "esri/layers/TimeReference", "dojo/domReady!"], function (Map) {
+    require(["esri/map", "esri/layers/FeatureLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/wms", "esri/toolbars/draw", "esri/tasks/FeatureSet", "esri/tasks/BufferParameters", "esri/tasks/GeometryService", "esri/layers/KMLLayer", "esri/layers/TimeReference", "dojo/domReady!"], function (Map) {
+        /*
         map = new Map("basemap_box", {
             center: [99, 11.35],
-            zoom: 5,
+            zoom: 6,
             slider:false,
             basemap: "streets"
+        });*/
+        map = new esri.Map("basemap_box", { zoom: 5, slider: false });
+        var layer = new esri.layers.ArcGISDynamicMapServiceLayer("http://192.168.3.177:6080/arcgis/rest/services/BaseMap/BaseMapWorldStreetMapNo/MapServer");
+        map.addLayer(layer);
+        console.log(map);        var resizeTimer;
+        dojo.connect(map, 'onLoad', function (theMap) {
+            dojo.connect(dijit.byId('map'), 'resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    map.resize();
+                    map.reposition();
+                }, 500);
+            });
+            iniGraphicBar(map),
+            loadLeftWindow(),
+            loadRightWindow(),
+            loadPanelLayer(),
+            loadPanelTools(),
+            loadCommonWindow()
         });
-
-        dojo.connect(map, "onLoad", iniGraphicBar(map), loadLeftWindow(), loadRightWindow(),loadCommonWindow());
-        
-        
     });
 }
 
@@ -70,36 +112,34 @@ function iniGraphicBar(map) {
 }
 
 function addQueryGraphic(geometry) {
-
-
-
-    var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([56, 93, 138]), 1), new dojo.Color([0, 0, 0, 0.5]));
-
-    if (symbol) {
-        symbol = eval(symbol);
-    }
-    else {
-        var type = geometry.type;
-        if (type === "point" || type === "multipoint") {
-            symbol = tb.markerSymbol;
-        }
-        else if (type === "line" || type === "polyline") {
-            symbol = tb.lineSymbol;
-        }
-        else {
-            symbol = tb.fillSymbol;
-        }
+    //var geometryww = geometry.geometry;
+    console.log(geometry.type);
+    switch (geometry.type) {
+        case "point":
+            var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 0]), 1), new dojo.Color([0, 0, 0, 1]));
+            break;
+        case "polyline":
+            var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 0]), 2);
+            break;
+        case "polygon":
+            var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_NONE, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
+            break;
+        case "extent":
+            var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_NONE, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
+            break;
     }
 
-    map.graphics.add(new esri.Graphic(geometry, symbol));
+    var graphic = new esri.Graphic(geometry, symbol);
+    map.graphics.add(graphic);
+
+    //Set new GEOMETRY to current geometer
     currentQueryGeometry = geometry;
 
     //Disable Drawing
     tb.deactivate();
-
-    //console.log(map);
-    console.log(geometry);
 }
+
+
 
 
 
@@ -152,7 +192,7 @@ function loadRightWindow() {
         height: "auto",
         maxHeight: basemap_box_height + "px",
         actions: ["Minimize", "Maximize", "Close"],
-        position: { top: 50, left: basemap_box_width }
+        position: { top: 50, left: basemap_box_width },
     });
 
     $("#right_window_btn").css("top", "50px");
@@ -212,9 +252,19 @@ function loadCommonWindow() {
         height: "auto",
         maxHeight: basemap_box_height + "px",
         actions: ["Minimize", "Maximize", "Close"],
-        position: { top: 50, left: p_left }
+        position: { top: 50, left: p_left },
+        
     });
 
     //$("#right_window_btn").css("top", "50px");
     //$("#right_window_btn").css("right", "10px");
+}
+
+
+function checkURL(value) {
+    var urlregex = new RegExp("^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.|http:\/\/|https:\/\/){1}([0-9A-Za-z]+\.)");
+    if (urlregex.test(value)) {
+        return (true);
+    }
+    return (false);
 }

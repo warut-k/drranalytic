@@ -1,6 +1,6 @@
 ﻿defaulServiceDataSources = [
                   {
-                      id: 01, sid: "01ROOT", text: "ขอบเขตการปกครอง", expanded: true, spriteCssClass: "folder", items: [
+                      id: 01, sid: "01ROOT", text: "ขอบเขตการปกครอง", expanded: false, spriteCssClass: "folder", items: [
                           { id: 0101, sid: "0101", text: "จังหวัด", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/ThaiLandDefault/MapServer/0", queryFields: ["PROV_NAM_T"], outFields: ["OBJECTID", "PROV_CODE", "PROV_NAM_T", "PROV_NAM_E", "Shape_Length", "Shape_Area"] },
                           { id: 0102, sid: "0102", text: "อำเภอ", layerType: "F", SURL: "", queryFields: [] },
                           { id: 0103, sid: "0103", text: "ตำบล", layerType: "F", SURL: "", queryFields: [] },
@@ -8,8 +8,8 @@
                       ]
                   },
                   {
-                      id: 02, sid: "02ROOT", text: "เส้นทางคมนาคม", expanded: true, spriteCssClass: "folder", items: [
-                          { id: 0201, sid: "0201", text: "ถนน", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/Route56IntersectFlood55/MapServer/2", queryFields: [] },
+                      id: 02, sid: "02ROOT", text: "เส้นทางคมนาคม", expanded: false, spriteCssClass: "folder", items: [
+                          { id: 0201, sid: "0201", text: "ถนน", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/Route56IntersectFlood55/MapServer/2", queryFields: ["R_NAME_T"], outFields: ["OBJECTID,ROUTE_NO ,R_NAME_T,R_WIDTH,ROADTYPE ,ROADNAME ,DIRECTION "] },
                           { id: 0201, sid: "02011", text: "น้ำท่วม(สมมติ)", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/Route56IntersectFlood55/MapServer/1", queryFields: [] },
                           { id: 0202, sid: "0202", text: "ทางรถไฟ", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/Route56IntersectFlood55/MapServer/1", queryFields: [] },
                           { id: 0203, sid: "0203", text: "ทางรถไฟฟ้า", layerType: "F", SURL: "http://192.168.3.177:6080/arcgis/rest/services/DRR_5/Route56IntersectFlood55/MapServer/1", queryFields: [] },
@@ -57,5 +57,15 @@
                       id: 07, sid: "07ROOT", text: "ข้อมูลจากโครงการ GPS", expanded: false, spriteCssClass: "folder", items: [
                           { id: 0701, sid: "0701", text: "หมุดหลักฐาน", layerType: "DM", SURL: "", queryFields: [] },
                       ]
+                  },
+                  {
+                      id: 08, sid: "08ROOT", text: "น้ำท่วมของ GISTDA", expanded: false, spriteCssClass: "folder", items: [
+                          { id: 0801, sid: "0801", text: "น้ำท่วนในรอบ 7 วัน", layerType: "WMS", SURL: "", queryFields: [], outFields: [] },
+                          { id: 0801, sid: "0802", text: "ระดับความรุนแรงของน้ำท่วมในรอบ 7 วัน", layerType: "WMS", SURL: "", queryFields: [], outFields: [] },
+                          { id: 0801, sid: "0803", text: "ความถี่น้ำท่วมขังในรอบ 8 ปี", layerType: "WMS", SURL: "", queryFields: [], outFields: [] }
+                      ]
                   }
 ];
+
+
+geometerService = [{ url: "http://192.168.3.177:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer" }];

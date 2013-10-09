@@ -4,7 +4,8 @@
         <div id="tabstrip" style="border:0px">
             <ul>
                 <li class="k-state-active">ชั้นข้อมูล</li>
-                <li>Analytic Layer</li>
+                <li>AL</li>
+                <li>KML</li>
                 <li><span class="k-icon k-i-plus"></span></li>
                 <li onClick="loadAddedLayerPanel()"><img src="../../Assets/image/gisimg/layer-icon.png"</li>
             </ul>
@@ -15,14 +16,16 @@
                 <div id="customize_layer"></div>
             </div>
             <div>
-                <div id="add_service_layer"></div>
+                <div id="add_kml_layer"></div>
             </div>
+            <div>
+                <div id="add_service_layer"></div>
+            </div>            
             <div>
                 <div id="added_layer"></div>
             </div>
         </div>
   
-
 
 <script>
     $(document).ready(function () {
@@ -33,6 +36,7 @@
         loadDefaultLayer();
         loadCustomizeLayer();
         loadAddLayerServicepanel();
+        loadKMLAddLayer();
     });
 
 
@@ -52,6 +56,12 @@
     function loadAddLayerServicepanel() {
         $.get("Page/layer/add_service_layer.aspx", function (data) {
             $("#add_service_layer").html(data);
+        });
+    }
+
+    function loadKMLAddLayer() {
+        $.get("Page/layer/add_kml_layer.html", function (data) {
+            $("#add_kml_layer").html(data);
         });
     }
 

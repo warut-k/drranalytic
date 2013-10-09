@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_service_layer.aspx.cs" Inherits="DRR_ANALYTIC.Page.layer.add_service_layer" %>
+
 <br />
 ชื่อชั้นข้อมูล:<br />
 <input type="text" style="width:100%" /><br />
@@ -17,3 +18,4 @@ Type:<br>
 
 ชั้นข้อมูล<br>
 <input type="checkbox" />ข้อมูลน้ำท่วม.(GISDA)<br>
+
